@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>For Joyi ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    background:black;
+    font-family:'Poppins',sans-serif;
+    height:100vh;
+    width:100%;
+    color:white;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top,
+    rgba(255,0,128,0.25),
+    black 60%);
+    overflow:hidden;
+}
+
+/* STARS */
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:0.2;
+        transform:scale(1);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1.8);
+    }
+}
+
+/* MAIN */
+
+.container{
+    position:relative;
+    z-index:5;
+    height:100vh;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+/* TITLE */
+
+.title{
+    font-size:clamp(2rem,5vw,4rem);
+    font-weight:700;
+    margin-bottom:20px;
+
+    opacity:0;
+
+    text-shadow:
+    0 0 10px #ff4da6,
+    0 0 30px #ff4da6;
+}
+
+/* COUNTDOWN */
+
+.countdown{
+    font-size:clamp(1.5rem,4vw,2.8rem);
+    color:#ffd1ec;
+
+    margin-bottom:50px;
+
+    opacity:0;
+
+    text-shadow:
+    0 0 10px hotpink;
+}
+
+/* BOMB */
+
+.bomb{
+    font-size:5rem;
+
+    border:none;
+    background:none;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    opacity:0;
+
+    filter:drop-shadow(0 0 20px red);
+
+    animation:pulse 1.5s infinite;
+}
+
+.bomb:hover{
+    transform:scale(1.15);
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.12);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* FLASH */
+
+.flash{
+    position:fixed;
+    inset:0;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+    z-index:100;
+}
+
+/* HEARTS */
+
+.heart{
+    position:absolute;
+    font-size:25px;
+    pointer-events:none;
+}
+
+/* TREE */
+
+.tree-container{
+
+    position:absolute;
+
+    bottom:-100%;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    opacity:0;
+}
+
+/* TREE HEART */
+
+.tree-heart{
+    position:relative;
+
+    width:220px;
+    height:220px;
+
+    background:#ff1a75;
+
+    transform:rotate(-45deg);
+
+    box-shadow:
+    0 0 40px hotpink,
+    0 0 80px deeppink;
+}
+
+.tree-heart::before,
+.tree-heart::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    background:#ff1a75;
+
+    border-radius:50%;
+}
+
+.tree-heart::before{
+    top:-110px;
+    left:0;
+}
+
+.tree-heart::after{
+    left:110px;
+    top:0;
+}
+
+/* TREE TRUNK */
+
+.trunk{
+    position:absolute;
+
+    width:20px;
+    height:220px;
+
+    background:#5c3317;
+
+    bottom:-180px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border-radius:20px;
+
+    box-shadow:
+    0 0 20px #5c3317;
+}
+
+/* FINAL TEXT */
+
+.final-text{
+
+    position:absolute;
+
+    bottom:8%;
+
+    width:100%;
+
+    text-align:center;
+
+    font-size:clamp(1.5rem,4vw,3rem);
+
+    opacity:0;
+
+    text-shadow:
+    0 0 20px hotpink,
+    0 0 40px deeppink;
+}
+
+/* FLOATING HEARTS */
+
+.floating-heart{
+    position:absolute;
+    font-size:20px;
+    animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+
+    from{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120vh) scale(2);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background" id="background"></div>
+
+<div class="flash" id="flash"></div>
+
+<div class="container">
+
+    <div class="title">
+        Something is waiting for you tonight ❤️
+    </div>
+
+    <div class="countdown" id="countdown"></div>
+
+    <button class="bomb" id="bomb">
+        💣
+    </button>
+
+</div>
+
+<!-- TREE -->
+
+<div class="tree-container" id="treeContainer">
+
+    <div class="tree-heart"></div>
+
+    <div class="trunk"></div>
+
+</div>
+
+<!-- FINAL TEXT -->
+
+<div class="final-text" id="finalText">
+
+    Wait my Joyi... ❤️ <br>
+    This is just the trailer ✨
+
+</div>
+
+<script>
+
+/* STARS */
+
+const bg = document.getElementById("background");
+
+for(let i=0;i<150;i++){
+
+    const star = document.createElement("div");
+
+    star.classList.add("star");
+
+    star.style.left = Math.random()*100+"%";
+
+    star.style.top = Math.random()*100+"%";
+
+    star.style.animationDuration =
+    Math.random()*3+1+"s";
+
+    bg.appendChild(star);
+}
+
+/* COUNTDOWN */
+
+function updateCountdown(){
+
+    const now = new Date();
+
+    const midnight = new Date();
+
+    midnight.setHours(24,0,0,0);
+
+    const diff = midnight-now;
+
+    const h = Math.floor(diff/(1000*60*60));
+
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+
+    const s = Math.floor((diff%(1000*60))/1000);
+
+    document.getElementById("countdown").innerHTML =
+    `${h}h ${m}m ${s}s`;
+}
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+/* INTRO */
+
+gsap.to(".title",{
+    opacity:1,
+    y:-10,
+    duration:2
+});
+
+gsap.to(".countdown",{
+    opacity:1,
+    delay:1,
+    duration:2
+});
+
+gsap.to(".bomb",{
+    opacity:1,
+    delay:2,
+    duration:2,
+    scale:1.1
+});
+
+/* EXPLOSION */
+
+const bomb = document.getElementById("bomb");
+
+bomb.addEventListener("click",()=>{
+
+    const flash = document.getElementById("flash");
+
+    gsap.to(flash,{
+        opacity:1,
+        duration:0.2,
+        yoyo:true,
+        repeat:1
+    });
+
+    gsap.to("body",{
+        x:10,
+        duration:0.05,
+        repeat:8,
+        yoyo:true
+    });
+
+    createHearts();
+
+    gsap.to(".container",{
+        opacity:0,
+        duration:1
+    });
+
+    setTimeout(()=>{
+        showTree();
+    },1200);
+});
+
+/* HEART BURST */
+
+function createHearts(){
+
+    const emojis =
+    ["❤️","💖","💜","💕","💞","💗"];
+
+    for(let i=0;i<180;i++){
+
+        const heart =
+        document.createElement("div");
+
+        heart.classList.add("floating-heart");
+
+        heart.innerHTML =
+        emojis[Math.floor(Math.random()*emojis.length)];
+
+        heart.style.left =
+        Math.random()*100+"vw";
+
+        heart.style.top =
+        "80vh";
+
+        heart.style.fontSize =
+        Math.random()*35+20+"px";
+
+        heart.style.animationDuration =
+        Math.random()*3+2+"s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },5000);
+    }
+}
+
+/* TREE SHOW */
+
+function showTree(){
+
+    const tree =
+    document.getElementById("treeContainer");
+
+    gsap.to(tree,{
+
+        bottom:"25%",
+
+        opacity:1,
+
+        duration:4,
+
+        ease:"power3.out"
+
+    });
+
+    gsap.from(".tree-heart",{
+
+        scale:0,
+
+        rotate:-180,
+
+        duration:3,
+
+        ease:"elastic.out(1,0.5)"
+
+    });
+
+    gsap.to("#finalText",{
+
+        opacity:1,
+
+        delay:3,
+
+        duration:3
+
+    });
+}
+
+</script>
+
+</body>
+</html>
